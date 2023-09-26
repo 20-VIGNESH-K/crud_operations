@@ -25,6 +25,7 @@ func Create(context *gin.Context) {
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
+
 	create, err := ProfileCollection.InsertOne(Ctx, &user)
 	if err != nil {
 		log.Fatal(err)
