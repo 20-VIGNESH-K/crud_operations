@@ -1,9 +1,9 @@
 package models
 
 type Profile struct {
-	Name     string `json:"name" bson:"name" validate:"required"`
-	Age      int    `json:"age" bson:"age" validate:"gte=0"`
-	Address  string `json:"address" bson:"address"`
-	Place    string `json:"place" bson:"place"`
-	District string `json:"district" bson:"district"`
+	Name     string `json:"name" bson:"name" validate:"required,customValidator"`
+	Age      int    `json:"age" bson:"age" validate:"required,gte=1,lte=100"`
+	Address  string `json:"address" bson:"address" validate:"required"`
+	Place    string `json:"place" bson:"place" validate:"required"`
+	District string `json:"district" bson:"district" validate:"required"`
 }
