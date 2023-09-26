@@ -16,76 +16,80 @@
         }
 
         h1 {
-            color: #ffffff60;
+            color: #a51f1f60;
             text-align: center;
         }
 
         #getUserForm {
-            background-color: #ffffff;
-            max-width: 400px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(156, 25, 25, 0.1);
-        }
+    background-color: #ffffff;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(156, 25, 25, 0.1);
+    text-align: left;
+}
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: #333333;
-        }
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333333;
+}
 
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #251b1b;
-            border-radius: 5px;
-        }
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #251b1b;
+    border-radius: 5px;
+}
 
-        button[type="submit"] {
-            background-color: #2c2920;
-            color: #050303;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
+button[type="submit"] {
+    background-color: #2c2920;
+    color: #050303;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
 
-        button[type="submit"]:hover {
-            background-color: #3965a7;
-        }
+button[type="submit"]:hover {
+    background-color: #3965a7;
+}
 
-        #userDetails {
-            margin-top: 20px;
-            text-align: center;
-        }
+#userDetails {
+    margin-top: 20px;
+    text-align: center;
+}
 
-        .user-box {
-            background-color: #f2f2f2;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            padding: 10px;
-        }
+.user-box {
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 10px;
+}
 
-        .user-box h2 {
-            color: #002fff;
-            margin: 0;
-        }
+.user-box h2 {
+    color: #002fff;
+    margin: 0;
+}
+
     </style>
 </head>
 <body>
-    <h1>Get User by Name</h1>
-    <form id="getUserForm">
-        <label for="name">Enter User Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <button type="submit">Get User</button>
-    </form>
+    <div> <h1>Get User by Name</h1>
+        <form id="getUserForm">
+            <label for="name">Enter User Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <button type="submit">Get User</button>
+        </form>
+    
+   
     
     <div id="userDetails">
         <!-- User details will be displayed here -->
-    </div>
+    </div></div>
 
     <script>
         document.getElementById("getUserForm").addEventListener("submit", function (event) {
