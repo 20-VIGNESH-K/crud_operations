@@ -15,7 +15,6 @@ const ConnectionString = "mongodb://localhost:27017"
 const Port = ":8002"
 const DatabaseName = "Profile"
 
-var MongoClient *mongo.Client
 
 
 
