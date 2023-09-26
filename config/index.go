@@ -12,8 +12,12 @@ import (
 )
 
 const ConnectionString = "mongodb://localhost:27017"
-const Port = ":8000"
+const Port = ":8002"
 const DatabaseName = "Profile"
+
+var MongoClient *mongo.Client
+
+
 
 func ConnectDataBase() (*mongo.Client, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
