@@ -89,5 +89,30 @@ func GetAll(context *gin.Context) {
 		context.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
 	}
 	context.JSON(http.StatusOK, users)
+}
+
+func GetUser(context *gin.Context) {
+	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
+	var users []*models.Profile
+	name := context.Param("name")
+	filter := bson.M{"name": name}
+	cursor, err := ProfileCollection.Find(Ctx, filter)
+	if err != nil {
+		context.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+		return
+	}
+	for cursor.Next(Ctx) {
+		var user models.Profile
+		err := cursor.Decode(&user)
+		if err != nil {
+			context.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+		}
+		users = append(users, &user)
+	}
+	if err := cursor.Err(); err != nil {
+		context.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+	}
+	cursor.Close(Ctx)
+	context.JSON(http.StatusOK, users)
 
 }

@@ -10,4 +10,5 @@ func ProfileRoute(router *gin.Engine) {
 	router.POST("/update/:name", services.Update)
 	router.DELETE("/delete/:name", services.Delete)
 	router.GET("/getAll", services.GetAll)
+	router.GET("/getUserByName/:name", services.GetUser)
 }
