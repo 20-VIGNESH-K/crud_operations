@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Create Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #createProfileForm {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+  <center>  <h1>Create Profile</h1> </center>
+    <form id="createProfileForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+        <br>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+        <br>
+        <label for="place">Place:</label>
+        <input type="text" id="place" name="place" required>
+        <br>
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" required>
+        <br>
+        <button type="submit">Create Profile</button>
+    </form>
+
+    <script>
+        document.getElementById("createProfileForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Get form data
+            const name = document.getElementById("name").value;
+            const age = parseInt(document.getElementById("age").value);
+            const address = document.getElementById("address").value;
+            const place = document.getElementById("place").value;
+            const district = document.getElementById("district").value;
+
+            // Create JSON object with form data
+            const profileData = {
+                name: name,
+                age: age,
+                address: address,
+                place: place,
+                district: district
+            };
+
+            // Send a POST request to your backend
+            fetch("/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(profileData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "success") {
+                    alert("Profile created successfully!");
+                    // You can redirect or perform other actions here
+                } else {
+                    alert("Failed to create profile. " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while creating the profile.");
+            });
+        });
+    </script>
+</body>
+</html>

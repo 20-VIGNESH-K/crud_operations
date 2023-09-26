@@ -6,6 +6,12 @@ import (
 )
 
 func ProfileRoute(router *gin.Engine) {
+	router.Static("/createProfile", "./frontend/createProfile/")
+	router.Static("/getAllProfile", "./frontend/getAllProfile/")
+	router.Static("/getProfileByName", "./frontend/getProfileByName/")
+	router.Static("/updateProfileByName", "./frontend/updateProfileByName/")
+	router.Static("/deleteProfile", "./frontend/deleteProfile/")
+
 	router.POST("/create", services.Create)
 	router.POST("/update/:name", services.Update)
 	router.DELETE("/delete/:name", services.Delete)

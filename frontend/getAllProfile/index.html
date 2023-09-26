@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get All Profiles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        #getAllButton {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #getAllButton:hover {
+            background-color: #0056b3;
+        }
+
+        #profileList {
+            background-color: #fff;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-box {
+            background-color: #f2f2f2; /* Box background color */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .profile-box h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f0f0; /* Alternate row background color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Get All Profiles</h1>
+    <button id="getAllButton">Fetch All Profiles</button>
+    
+    <div id="profileList">
+        <!-- Profiles will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById("getAllButton").addEventListener("click", function () {
+            // Send a GET request to your backend
+            fetch("/getAll")
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data (list of profiles)
+                displayProfiles(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while fetching profiles.");
+            });
+        });
+
+        function displayProfiles(profiles) {
+            const profileList = document.getElementById("profileList");
+            profileList.innerHTML = "";
+
+            if (profiles.length === 0) {
+                profileList.innerHTML = "<p>No profiles found.</p>";
+                return;
+            }
+
+            const profileTable = document.createElement("table");
+            profileTable.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Address</th>
+                        <th>Place</th>
+                        <th>District</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${profiles.map(profile => `
+                        <tr>
+                            <td>${profile.name}</td>
+                            <td>${profile.age}</td>
+                            <td>${profile.address}</td>
+                            <td>${profile.place}</td>
+                            <td>${profile.district}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            profileList.appendChild(profileTable);
+        }
+    </script>
+</body>
+</html>

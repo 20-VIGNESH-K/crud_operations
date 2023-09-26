@@ -34,7 +34,7 @@ func Create(context *gin.Context) {
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
-
+    fmt.Println(user)
 	validate := validator.New()
 	validate.RegisterValidation("customValidator", CustomValidator)
 
@@ -43,18 +43,18 @@ func Create(context *gin.Context) {
 		// Handle validation errors
 		for _, validationErr := range err.(validator.ValidationErrors) {
 			log.Printf("Validation Error in field %s: %s\n", validationErr.Field(), validationErr.Tag())
-			context.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Validation Error!! Enter Properly..."})
 			return
 		}
 	} else {
 		log.Println("Validation successful")
-		context.JSON(http.StatusOK, gin.H{"status": "Success", "message": "Validation Successfull"})
 	}
 	create, err := ProfileCollection.InsertOne(Ctx, &user)
 	if err != nil {
 		log.Fatal(err)
 	}
-	context.JSON(http.StatusCreated, gin.H{"status": "success", "data": create})
+	fmt.Println(create.InsertedID)
+	context.JSON(http.StatusOK, gin.H{"message": "success"})
+
 
 }
 

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        #deleteUserForm {
+            background-color: #ffffff;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Delete User Profile</h1>
+    <form id="deleteUserForm">
+        <label for="name">Enter User Name to Delete:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <button type="submit">Delete User Profile</button>
+    </form>
+    
+    <script>
+        document.getElementById("deleteUserForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Get user name from the form
+            const name = document.getElementById("name").value;
+
+            // Send a DELETE request to your backend to delete user profile by name
+            fetch(`/delete/${name}`, {
+                method: "DELETE"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "success") {
+                    alert("User profile deleted successfully!");
+                } else {
+                    alert("Failed to delete user profile. " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while deleting the user profile.");
+            });
+        });
+    </script>
+</body>
+</html>

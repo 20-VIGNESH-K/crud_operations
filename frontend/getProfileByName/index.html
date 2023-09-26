@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get User by Name</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #6d8a89;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #ffffff60;
+            text-align: center;
+        }
+
+        #getUserForm {
+            background-color: #ffffff;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(156, 25, 25, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #251b1b;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #2c2920;
+            color: #050303;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #3965a7;
+        }
+
+        #userDetails {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .user-box {
+            background-color: #f2f2f2;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .user-box h2 {
+            color: #002fff;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Get User by Name</h1>
+    <form id="getUserForm">
+        <label for="name">Enter User Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <button type="submit">Get User</button>
+    </form>
+    
+    <div id="userDetails">
+        <!-- User details will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById("getUserForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Get user name from the form
+            const name = document.getElementById("name").value;
+
+            // Send a GET request to your backend to fetch user details by name
+            fetch(`/getUserByName/${name}`)
+            .then(response => response.json())
+            .then(data => {
+            console.log("Response data:", data); // Add this line for debugging
+            displayUserDetails(data);
+})
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while fetching user details.");
+            }); 
+        });
+
+        function displayUserDetails(user) {
+            const userDetails = document.getElementById("userDetails");
+            userDetails.innerHTML = "";
+
+            if (!user || user.length === 0) {
+                userDetails.innerHTML = "<p>User not found.</p>";
+                return;
+            }
+
+            const userBox = document.createElement("div");
+            userBox.classList.add("user-box");
+            console.log(user.name)
+            userBox.innerHTML = `
+                <h2>Name:${user[0].name}</h2>
+                <p>Age: ${user[0].age}</p>
+                <p>Address: ${user[0].address}</p>
+                <p>Place: ${user[0].place}</p>
+                <p>District: ${user[0].district}</p>
+            `;
+
+            userDetails.appendChild(userBox);
+        }
+    </script>
+</body>
+</html>
