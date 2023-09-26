@@ -28,13 +28,7 @@ func CustomValidator(fl validator.FieldLevel) bool {
 	return match
 }
 
-func Create(context *gin.Context) {
-	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
-	var user models.Profile
-	if err := context.ShouldBindJSON(&user); err != nil {
-		context.JSON(http.StatusBadRequest, err.Error())
-	}
-    fmt.Println(user)
+func CheckValidation(user models.Profile) bool {
 	validate := validator.New()
 	validate.RegisterValidation("customValidator", CustomValidator)
 
@@ -43,18 +37,66 @@ func Create(context *gin.Context) {
 		// Handle validation errors
 		for _, validationErr := range err.(validator.ValidationErrors) {
 			log.Printf("Validation Error in field %s: %s\n", validationErr.Field(), validationErr.Tag())
-			return
+			return false
 		}
-	} else {
-		log.Println("Validation successful")
 	}
-	create, err := ProfileCollection.InsertOne(Ctx, &user)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(create.InsertedID)
-	context.JSON(http.StatusOK, gin.H{"message": "success"})
 
+	log.Println("Validation successful")
+	return true
+
+}
+
+func Create(context *gin.Context) {
+	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
+	var user models.Profile
+	if err := context.ShouldBindJSON(&user); err != nil {
+		context.JSON(http.StatusBadRequest, err.Error())
+	}
+	fmt.Println(user)
+	err := CheckValidation(user)
+	if err == false {
+		context.JSON(http.StatusNotAcceptable, gin.H{"message": "Validation error"})
+	} else {
+
+		create, err := ProfileCollection.InsertOne(Ctx, &user)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(create.InsertedID)
+		context.JSON(http.StatusOK, gin.H{"message": "success"})
+	}
+
+}
+
+func CreateMany(context *gin.Context) {
+	ProfileCollection := MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
+	var profiles []*models.Profile
+	if err := context.ShouldBindJSON(&profiles); err != nil {
+		context.JSON(http.StatusBadRequest, err.Error())
+	}
+	fmt.Println(profiles)
+
+	// Create an array of interface to store the profile documents
+	var profilesToInsert []interface{}
+
+	// Convert each profile to an interface and add to the array
+	for _, profile := range profiles {
+		err := CheckValidation(*profile)
+		if err != false {
+			profilesToInsert = append(profilesToInsert, profile)
+			context.JSON(http.StatusOK, gin.H{"message": "inserted successfully"})
+		} else {
+			context.JSON(http.StatusNotAcceptable, gin.H{"message": "Validation error"})
+			continue
+		}
+	}
+
+	// Insert the profiles into the collection
+	_, err := ProfileCollection.InsertMany(Ctx, profilesToInsert)
+	if err != nil {
+		log.Println("Failed to insert profiles:", err)
+		return
+	}
 
 }
 

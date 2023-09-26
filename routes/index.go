@@ -13,6 +13,7 @@ func ProfileRoute(router *gin.Engine) {
 	router.Static("/deleteProfile", "./frontend/deleteProfile/")
 
 	router.POST("/create", services.Create)
+	router.POST("/createMany", services.CreateMany)
 	router.POST("/update/:name", services.Update)
 	router.DELETE("/delete/:name", services.Delete)
 	router.GET("/getAll", services.GetAll)
