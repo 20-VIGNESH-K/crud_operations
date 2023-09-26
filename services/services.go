@@ -82,14 +82,21 @@ func Delete(context *gin.Context) {
 	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
 
 	name := context.Param("name")
-
 	filter := bson.M{"name": name}
-	_, err := ProfileCollection.DeleteOne(Ctx, filter)
-	if err != nil {
-		fmt.Println("Error")
-		log.Fatal(err)
+	var user models.Profile
+	err := ProfileCollection.FindOne(Ctx, filter).Decode(&user)
+
+	if err == mongo.ErrNoDocuments {
+		// User with the specified username does not exist
+		context.JSON(http.StatusNotFound, gin.H{"message": "Name not found"})
+	} else {
+
+		_, err := ProfileCollection.DeleteOne(Ctx, filter)
+		if err != nil {
+			log.Fatal(err)
+		}
+		context.JSON(http.StatusAccepted, gin.H{"message": "success"})
 	}
-	context.JSON(http.StatusAccepted, gin.H{"message": "success"})
 }
 
 func GetAll(context *gin.Context) {
