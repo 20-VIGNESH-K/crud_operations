@@ -47,13 +47,13 @@ func CheckValidation(user models.Profile) bool {
 }
 
 func Create(context *gin.Context) {
-	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
+
 	var user models.Profile
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
 	filter := bson.M{"name": user.Name}
-	existingProfile := ProfileCollection.FindOne(Ctx, filter)
+	existingProfile := config.ProfileCollection.FindOne(Ctx, filter)
 	if existingProfile.Err() == nil {
 		context.JSON(http.StatusConflict, gin.H{"message": "Profile with the same name already exists"})
 		return // Return early if the profile already exists
@@ -64,7 +64,7 @@ func Create(context *gin.Context) {
 		context.JSON(http.StatusNotAcceptable, gin.H{"message": "Validation error"})
 	} else {
 
-		create, err := ProfileCollection.InsertOne(Ctx, &user)
+		create, err := config.ProfileCollection.InsertOne(Ctx, &user)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -75,7 +75,7 @@ func Create(context *gin.Context) {
 }
 
 func CreateMany(context *gin.Context) {
-	ProfileCollection := MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
+
 	var profiles []*models.Profile
 	if err := context.ShouldBindJSON(&profiles); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
@@ -98,7 +98,7 @@ func CreateMany(context *gin.Context) {
 	}
 
 	// Insert the profiles into the collection
-	_, err := ProfileCollection.InsertMany(Ctx, profilesToInsert)
+	_, err := config.ProfileCollection.InsertMany(Ctx, profilesToInsert)
 	if err != nil {
 		log.Println("Failed to insert profiles:", err)
 		return
@@ -107,7 +107,6 @@ func CreateMany(context *gin.Context) {
 }
 
 func Update(context *gin.Context) {
-	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
 
 	name := context.Param("name")
 
@@ -117,7 +116,7 @@ func Update(context *gin.Context) {
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
-	result, err := ProfileCollection.UpdateOne(Ctx, filter, bson.M{"$set": &user})
+	result, err := config.ProfileCollection.UpdateOne(Ctx, filter, bson.M{"$set": &user})
 	if result.ModifiedCount == 0 {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Name not exists"})
 	}
@@ -131,19 +130,18 @@ func Update(context *gin.Context) {
 }
 
 func Delete(context *gin.Context) {
-	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
 
 	name := context.Param("name")
 	filter := bson.M{"name": name}
 	var user models.Profile
-	err := ProfileCollection.FindOne(Ctx, filter).Decode(&user)
+	err := config.ProfileCollection.FindOne(Ctx, filter).Decode(&user)
 
 	if err == mongo.ErrNoDocuments {
 		// User with the specified username does not exist
 		context.JSON(http.StatusNotFound, gin.H{"message": "Name not found"})
 	} else {
 
-		_, err := ProfileCollection.DeleteOne(Ctx, filter)
+		_, err := config.ProfileCollection.DeleteOne(Ctx, filter)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -152,9 +150,9 @@ func Delete(context *gin.Context) {
 }
 
 func GetAll(context *gin.Context) {
-	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
+
 	var users []*models.Profile
-	cursor, err := ProfileCollection.Find(Ctx, bson.D{{}})
+	cursor, err := config.ProfileCollection.Find(Ctx, bson.D{{}})
 	if err != nil {
 		context.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
 		return
@@ -178,11 +176,11 @@ func GetAll(context *gin.Context) {
 }
 
 func GetUser(context *gin.Context) {
-	var ProfileCollection = MongoClient.Database(config.DatabaseName).Collection("ProfileCollections")
+
 	var users []*models.Profile
 	name := context.Param("name")
 	filter := bson.M{"name": name}
-	cursor, err := ProfileCollection.Find(Ctx, filter)
+	cursor, err := config.ProfileCollection.Find(Ctx, filter)
 	if err != nil {
 		context.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
 		return
