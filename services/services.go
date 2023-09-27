@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"sort"
 
 	"github.com/20-VIGNESH-K/crud_operations/config"
 	"github.com/20-VIGNESH-K/crud_operations/models"
@@ -13,6 +14,7 @@ import (
 	"github.com/go-playground/validator"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var (
@@ -199,4 +201,34 @@ func GetUser(context *gin.Context) {
 	cursor.Close(Ctx)
 	context.JSON(http.StatusOK, users)
 
+}
+
+func GetAllProfilesSortedByName(c *gin.Context) {
+
+	// Set the sorting options by name.
+	options := options.Find().SetSort(bson.D{{Key: "name", Value: 1}}) // 1 for ascending, -1 for descending
+
+	// Perform the database query.
+	cursor, err := config.ProfileCollection.Find(context.TODO(), bson.D{}, options)
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching items"})
+		return
+	}
+
+	// Store the results in a slice.
+	var items []models.Profile
+	if err := cursor.All(context.TODO(), &items); err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error decoding items"})
+		return
+	}
+
+	// Optionally, you can sort the items in Go for display purposes.
+	sort.Slice(items, func(i, j int) bool {
+		return items[i].Name < items[j].Name
+	})
+
+	// Return the sorted items.
+	c.JSON(http.StatusOK, items)
 }

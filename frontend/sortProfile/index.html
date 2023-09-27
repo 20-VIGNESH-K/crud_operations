@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile List</title>
+    <!-- Add Bootstrap CSS (you can include it from a CDN) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for styling */
+        body {
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #cce5ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Profile List</h1>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Place</th>
+                    <th>District</th>
+                </tr>
+            </thead>
+            <tbody id="profileTableBody">
+                <!-- Data will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Bootstrap and Axios scripts (you can include them from CDNs) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Function to fetch and display profile data
+        async function fetchAndDisplayProfiles() {
+            try {
+                const response = await axios.get("/getAllProfilesSortedByName"); // Replace with your API endpoint
+                const profiles = response.data;
+
+                // Sort the profiles by name
+                profiles.sort((a, b) => a.name.localeCompare(b.name));
+
+                const profileTableBody = document.getElementById("profileTableBody");
+                profileTableBody.innerHTML = "";
+
+                profiles.forEach((profile) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${profile.name}</td>
+                        <td>${profile.age}</td>
+                        <td>${profile.address}</td>
+                        <td>${profile.place}</td>
+                        <td>${profile.district}</td>
+                    `;
+                    profileTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error fetching profiles: " + error.message);
+            }
+        }
+
+        // Call the function when the page loads
+        fetchAndDisplayProfiles();
+    </script>
+</body>
+</html>

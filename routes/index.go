@@ -12,6 +12,7 @@ func ProfileRoute(router *gin.Engine) {
 	router.Static("/updateProfileByName", "./frontend/updateProfileByName/")
 	router.Static("/deleteProfile", "./frontend/deleteProfile/")
 	router.Static("/home", "./frontend/index/")
+	router.Static("/sortProfile", "./frontend/sortProfile/")
 
 	router.POST("/create", services.Create)
 	router.POST("/createMany", services.CreateMany)
@@ -19,4 +20,5 @@ func ProfileRoute(router *gin.Engine) {
 	router.DELETE("/delete/:name", services.Delete)
 	router.GET("/getAll", services.GetAll)
 	router.GET("/getUserByName/:name", services.GetUser)
+	router.GET("/getAllProfilesSortedByName", services.GetAllProfilesSortedByName)
 }
