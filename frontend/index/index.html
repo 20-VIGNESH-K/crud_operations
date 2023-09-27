@@ -29,7 +29,7 @@
         }
 
         .navbar {
-            background: #fff;
+            background: #0ca59d;
             padding: 10px 0;
             display: flex;
             justify-content: space-between;
@@ -53,10 +53,11 @@
         .navigation ul li a {
             text-decoration: none;
             color: var(--clr);
-            font-weight: 500;
+            font-weight: 700;
             padding: 10px;
-            border-radius: 8px;
-            transition: background 0.3s ease;
+            border-radius: 28px;
+            transition: background 0.1s ease;
+            background-color: rgb(230, 227, 223);
         }
 
         .navigation ul li a:hover {
@@ -70,12 +71,21 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             margin-bottom: 20px;
         }
 
         p {
             font-size: 16px;
+        }
+
+        .image-container {
+            display: flex;
+        }
+
+        .image-container img {
+            width: 50%; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
         }
     </style>
 </head>
@@ -111,9 +121,22 @@
         </div>
     </div>
     <div class="content">
-        <h1>Welcome to the Profile Navigation</h1>
-        <p>This is the content area where you can display information related to the selected navigation link.</p>
-        <img src="assests/image1.jpg" height="50%" width="50%" alt="sun">
+        <h1>Welcome to Your Profile Dashboard</h1>
+        <p>Explore and manage your profile with ease using the navigation menu. Here's what you can do:</p>
+        
+        <ul>
+            <li>Create a new profile to get started.</li>
+            <li>Update your profile information anytime you need to make changes.</li>
+            <li>Quickly search for specific profiles using the "Get Profile" feature.</li>
+            <li>View a list of all your profiles with the "Get All" option.</li>
+            <li>Delete profiles when they are no longer needed.</li>
+        </ul>
+        
+        <p>Enjoy the convenience and efficiency of our profile management system. If you have any questions or need assistance, feel free to reach out to our support team.</p>
+        <div class="image-container">
+        <img src="assests/image1.jpg" alt="Image 1">
+        <img src="assests/image2.png" alt="Image 2">
+    </div>
 
     </div>
 </body>
