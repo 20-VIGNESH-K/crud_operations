@@ -52,6 +52,12 @@ func Create(context *gin.Context) {
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
+	filter := bson.M{"name": user.Name}
+	existingProfile := ProfileCollection.FindOne(Ctx, filter)
+	if existingProfile.Err() == nil {
+		context.JSON(http.StatusConflict, gin.H{"message": "Profile with the same name already exists"})
+		return // Return early if the profile already exists
+	}
 	fmt.Println(user)
 	err := CheckValidation(user)
 	if err == false {
@@ -108,13 +114,12 @@ func Update(context *gin.Context) {
 	filter := bson.M{"name": name}
 	var user models.Profile
 
-	
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
 	result, err := ProfileCollection.UpdateOne(Ctx, filter, bson.M{"$set": &user})
-	if result.ModifiedCount==0{
-		context.JSON(http.StatusBadRequest, gin.H{"message":"Name not exists"})
+	if result.ModifiedCount == 0 {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Name not exists"})
 	}
 
 	if err != nil {
