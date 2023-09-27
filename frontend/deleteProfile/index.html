@@ -85,13 +85,13 @@
                     alert("User profile deleted successfully!")
                     
                 } else {
-                    location.reload(); // Refresh the page;
+                   
                     alert("Failed to delete user profile. " + data.message);
-                    location.reload(); // Refresh the page
+                    
                 }
             })
             .catch(error => {
-                location.reload(); // Refresh the page;
+              
                 console.error("Error:", error);
                 alert("An error occurred while deleting the user profile.");
             });

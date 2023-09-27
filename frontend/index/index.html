@@ -7,6 +7,8 @@
     <title>Profile Navigation Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+        
+        
     <style>
         * {
             margin: 0;
@@ -21,204 +23,99 @@
 
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
             background: var(--clr);
         }
 
-        .navigation {
-            position: relative;
-            width: 400px;
-            height: 70px;
+        .navbar {
             background: #fff;
+            padding: 10px 0;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            border-radius: 10px;
         }
 
         .navigation ul {
+            list-style-type: none;
+            padding: 0;
             display: flex;
-            width: 350px;
         }
 
         .navigation ul li {
-            position: relative;
-            list-style: none;
-            width: 70px;
-            height: 70px;
-            z-index: 1;
+            margin-right: 20px;
+        }
+
+        .navigation ul li:last-child {
+            margin-right: 0;
         }
 
         .navigation ul li a {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            width: 100%;
-            text-align: center;
+            text-decoration: none;
+            color: var(--clr);
             font-weight: 500;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
         }
 
-        .navigation ul li a .icon {
-            position: relative;
-            display: block;
-            line-height: 75px;
-            font-size: 1.5em;
-            text-align: center;
-            transition:0.1s;
-            color: var(--clr);
+        .navigation ul li a:hover {
+            background: #29fd53; /* Change to the desired hover color */
         }
 
-        .navigation ul li.active a .icon {
-            transform: translateY(-32px);
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            color: #fff;
         }
 
-        .navigation ul li a .text {
-            position: absolute;
-            color: var(--clr);
-            font-weight: 400;
-            font-size: 0.75em;
-            letter-spacing: 0.05em;
-            transition: 0.1s;
-            opacity: 0;
-            transform: translateY(20px);
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
-        .navigation ul li.active a .text {
-            opacity: 1;
-            transform: translateY(10px);
-        }
-
-        .indicator {
-            position: absolute;
-            top: -50%;
-            width: 70px;
-            height: 70px;
-            background: #29fd53;
-            border-radius: 50%;
-            border: 6px solid var(--clr);
-            transition: 0.1s;
-        }
-
-        .indicator::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -22px;
-            width: 20px;
-            height: 20px;
-            background: transparent;
-            border-top-right-radius: 20px;
-            box-shadow: 1px -10px 0 0 var(--clr);
-        }
-
-        .indicator::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -22px;
-            width: 20px;
-            height: 20px;
-            background: transparent;
-            border-top-left-radius: 20px;
-            box-shadow: -1px -10px 0 0 var(--clr);
-        }
-
-        .navigation ul li:nth-child(1).active ~ .indicator {
-            transform: translateX(calc(70px * 0));
-        }
-
-        .navigation ul li:nth-child(2).active ~ .indicator {
-            transform: translateX(calc(70px * 1));
-        }
-
-        .navigation ul li:nth-child(3).active ~ .indicator {
-            transform: translateX(calc(70px * 2));
-        }
-
-        .navigation ul li:nth-child(4).active ~ .indicator {
-            transform: translateX(calc(70px * 3));
-        }
-
-        .navigation ul li:nth-child(5).active ~ .indicator {
-            transform: translateX(calc(70px * 4));
+        p {
+            font-size: 16px;
         }
     </style>
 </head>
 
 <body>
-    <div class="navigation">
-        <ul>
-            <li class="list active">
-                <a href="http://localhost:8080/createProfile">
-                    <span class="icon"><ion-icon name="create"></ion-icon></span>
-                    <span class="text">create</span>
-                </a>
-            </li>
+    <div class="navbar">
+        <div class="logo">
+            <!-- Add your logo or title here -->
+            <h1>Profile Menu</h1>
+        </div>
+        <div class="navigation">
+            <ul>
+                <li class="list">
+                    <a href="http://localhost:8080/createProfile">Create</a>
+                </li>
 
-            <li class="list">
-                <a href="http://localhost:8080/updateProfileByName">
-                    <span class="icon"><ion-icon name="brush-sharp"></ion-icon></span>
-                    <span class="text">update</span>
-                </a>
-            </li>
+                <li class="list">
+                    <a href="http://localhost:8080/updateProfileByName">Update</a>
+                </li>
 
-            <li class="list">
-                <a href="http://localhost:8080/getProfileByName">
-                    <span class="icon"><ion-icon name="search"></ion-icon></span>
-                    <span class="text">getProfile</span>
-                </a>
-            </li>
+                <li class="list">
+                    <a href="http://localhost:8080/getProfileByName">Get Profile</a>
+                </li>
 
-            <li class="list">
-                <a href="http://localhost:8080/getAllProfile">
-                    <span class="icon"><ion-icon name="list"></ion-icon></span>
-                    <span class="text">getAll</span>
-                </a>
-            </li>
+                <li class="list">
+                    <a href="http://localhost:8080/getAllProfile">Get All</a>
+                </li>
 
-            <li class="list">
-                <a href="http://localhost:8080/deleteProfile">
-                    <span class="icon"><ion-icon name="trash"></ion-icon></span>
-                    <span class="text">deleteProfile</span>
-                </a>
-            </li>
-            <div class="indicator"></div>
-        </ul>
+                <li class="list">
+                    <a href="http://localhost:8080/deleteProfile">Delete Profile</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <script>
-        const list = document.querySelectorAll('.list');
-        function activeLink(){
-          list.forEach(item => item.classList.remove('active'));
-          this.classList.add('active');
-        }
-        list.forEach(item => 
-          item.addEventListener('click', activeLink))
-    </script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script>
-        // Create a mapping of text to icon names
-        const iconMapping = {
-    "create": "create",
-    "update": "brush-sharp",
-    "delete": "trash",
-    "getAll": "list",
-    "getProfile": "search"
-};
+    <div class="content">
+        <h1>Welcome to the Profile Navigation</h1>
+        <p>This is the content area where you can display information related to the selected navigation link.</p>
+        <img src="assests/image1.jpg" height="50%" width="50%" alt="sun">
 
-        // Update icons based on text
-        const icons = document.querySelectorAll('.icon ion-icon');
-        icons.forEach(icon => {
-            const text = icon.closest('.list').querySelector('.text').textContent;
-            if (iconMapping.hasOwnProperty(text)) {
-                icon.setAttribute('name', iconMapping[text]);
-            }
-        });
-    </script>
+    </div>
 </body>
 
 </html>

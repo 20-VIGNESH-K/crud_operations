@@ -106,13 +106,12 @@
                     location.reload(); // Refresh the page
                 } else {
                     alert("Failed to create profile. " + data.message);
-                    location.reload(); // Refresh the page
+                 
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
                 alert("An error occurred while creating the profile.");
-                location.reload(); // Refresh the page
             });
         });
     </script>
