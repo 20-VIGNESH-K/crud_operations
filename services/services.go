@@ -107,10 +107,15 @@ func Update(context *gin.Context) {
 
 	filter := bson.M{"name": name}
 	var user models.Profile
+
+	
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
-	_, err := ProfileCollection.UpdateOne(Ctx, filter, bson.M{"$set": &user})
+	result, err := ProfileCollection.UpdateOne(Ctx, filter, bson.M{"$set": &user})
+	if result.ModifiedCount==0{
+		context.JSON(http.StatusBadRequest, gin.H{"message":"Name not exists"})
+	}
 
 	if err != nil {
 		fmt.Println("Error")

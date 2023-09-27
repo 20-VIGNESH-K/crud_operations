@@ -16,6 +16,9 @@
         #createProfileForm {
             max-width: 400px;
             margin: 0 auto;
+            background-color: rgb(236, 247, 244);
+            padding: 50px;
+            border-radius: 10px;
         }
 
         label {
@@ -71,14 +74,14 @@
     <script>
         document.getElementById("createProfileForm").addEventListener("submit", function (event) {
             event.preventDefault();
-
+    
             // Get form data
             const name = document.getElementById("name").value;
             const age = parseInt(document.getElementById("age").value);
             const address = document.getElementById("address").value;
             const place = document.getElementById("place").value;
             const district = document.getElementById("district").value;
-
+    
             // Create JSON object with form data
             const profileData = {
                 name: name,
@@ -87,7 +90,7 @@
                 place: place,
                 district: district
             };
-
+    
             // Send a POST request to your backend
             fetch("/create", {
                 method: "POST",
@@ -100,16 +103,19 @@
             .then(data => {
                 if (data.message === "success") {
                     alert("Profile created successfully!");
-                    // You can redirect or perform other actions here
+                    location.reload(); // Refresh the page
                 } else {
                     alert("Failed to create profile. " + data.message);
+                    location.reload(); // Refresh the page
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
                 alert("An error occurred while creating the profile.");
+                location.reload(); // Refresh the page
             });
         });
     </script>
+    
 </body>
 </html>

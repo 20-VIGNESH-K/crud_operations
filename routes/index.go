@@ -11,6 +11,7 @@ func ProfileRoute(router *gin.Engine) {
 	router.Static("/getProfileByName", "./frontend/getProfileByName/")
 	router.Static("/updateProfileByName", "./frontend/updateProfileByName/")
 	router.Static("/deleteProfile", "./frontend/deleteProfile/")
+	router.Static("/home", "./frontend/index/")
 
 	router.POST("/create", services.Create)
 	router.POST("/createMany", services.CreateMany)

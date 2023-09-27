@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #ffcc00;
+            background-color: hsl(48, 12%, 92%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,7 +23,7 @@
         #updateProfileForm {
             background-color: #ffffff;
             max-width: 400px;
-            padding: 20px;
+            padding:50px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -60,6 +60,7 @@
 </head>
 <body><div>
     <h1>Update User Profile</h1>
+
     <form id="updateProfileForm">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
@@ -113,15 +114,19 @@
                 if (data.message === "success") {
                     alert("Profile updated successfully!");
                     // You can redirect or perform other actions here
+                    location.reload(); // Refresh the page
                 } else {
                     alert("Failed to update profile.");
+                    location.reload(); // Refresh the page
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
-                alert("An error occurred while updating the profile.");
+                alert("An error occurred while updating the profile and It shows ProfileName not exits");
+                location.reload(); // Refresh the page
             });
         });
     </script>
 </body>
 </html>
+ 
