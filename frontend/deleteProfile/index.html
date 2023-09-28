@@ -57,10 +57,11 @@
         }
     </style>
 </head>
-<body><div>
+<body>
+<div>
     <h1>Delete User Profile</h1>
     <form id="deleteUserForm">
-        <label for="name">Enter User Name to Delete:</label>
+        <label for="name">Enter Profile Name to Delete:</label>
         <input type="text" id="name" name="name" required>
         <br>
         <button type="submit">Delete User Profile</button>
@@ -83,7 +84,7 @@
                 if (data.message === "success") {
                     location.reload(); // Refresh the page;
                     alert("User profile deleted successfully!")
-                    
+                    location.reload();
                 } else {
                    
                     alert("Failed to delete user profile. " + data.message);
