@@ -118,15 +118,17 @@ func Update(context *gin.Context) {
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
+	
+	existingProfile := config.ProfileCollection.FindOne(Ctx, filter)
+	if existingProfile.Err() != nil {
+		context.JSON(http.StatusConflict, gin.H{"message": "Profile name not exists"})
+		return // Return early if the profile already exists
+	}
+
 	result, err := config.ProfileCollection.UpdateOne(Ctx, filter, bson.M{"$set": &user})
 	if result.ModifiedCount == 0 {
-		if name == user.Name {
-			context.JSON(http.StatusBadRequest, gin.H{"message": "Not Updated"})
-			return
-		}else{
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Name not exists"})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "There is no new to update!!!..."})
 		return
-		}
 	}
 
 	if err != nil {
@@ -134,7 +136,6 @@ func Update(context *gin.Context) {
 		log.Fatal(err)
 	}
 	context.JSON(http.StatusCreated, gin.H{"message": "success"})
-
 
 }
 

@@ -116,16 +116,13 @@
                     // You can redirect or perform other actions here
                     location.reload(); // Refresh the page
                 } else {
-                    alert("Failed to update profile.");   
-                    if (data.message==="Not Updated")  {
-                        alert("Nothing has changed in your profile");
-                    }          
+                    alert(data.message);                          
                 }
                 
             })
             .catch(error => {
                 console.error("Error:", error);
-                alert("An error occurred while updating the profile.It shows ProfileName not exits");
+                alert("An error occurred while updating the profile."+ data.message);
  
             });
         });
