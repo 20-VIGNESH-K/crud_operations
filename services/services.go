@@ -118,7 +118,7 @@ func Update(context *gin.Context) {
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, err.Error())
 	}
-	
+
 	existingProfile := config.ProfileCollection.FindOne(Ctx, filter)
 	if existingProfile.Err() != nil {
 		context.JSON(http.StatusConflict, gin.H{"message": "Profile name not exists"})
@@ -148,7 +148,7 @@ func Delete(context *gin.Context) {
 
 	if err == mongo.ErrNoDocuments {
 		// User with the specified username does not exist
-		context.JSON(http.StatusNotFound, gin.H{"message": "Name not found"})
+		context.JSON(http.StatusNotFound, gin.H{"message": "Name not found!!!. Enter correct Profile name to delete."})
 	} else {
 
 		_, err := config.ProfileCollection.DeleteOne(Ctx, filter)

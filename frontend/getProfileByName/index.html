@@ -117,6 +117,7 @@ button[type="submit"]:hover {
             userDetails.innerHTML = "";
 
             if (!user || user.length === 0) {
+                alert("Name not found. Enter correct name to fetch their details...")
                 userDetails.innerHTML = "<p>User not found.</p>";
                 return;
             }
