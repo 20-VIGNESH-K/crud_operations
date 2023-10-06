@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"regexp"
 	"sort"
+	"strings"
 
 	"github.com/20-VIGNESH-K/crud_operations/config"
 	"github.com/20-VIGNESH-K/crud_operations/models"
@@ -23,13 +24,21 @@ var (
 )
 
 // CustomValidator is a custom validation function
+//
+//	func CustomValidator(fl validator.FieldLevel) bool {
+//		// Use a regular expression to check if the field contains only letters
+//		name := fl.Field().String()
+//		match, _ := regexp.MatchString("^[A-Za-z]+$", name)
+//		return match
+//	}
 func CustomValidator(fl validator.FieldLevel) bool {
-	// Use a regular expression to check if the field contains only letters
+	// Use a regular expression to check if the field contains only letters and spaces
 	name := fl.Field().String()
-	match, _ := regexp.MatchString("^[A-Za-z]+$", name)
+	// Remove leading and trailing spaces before validation
+	trimmedName := strings.TrimSpace(name)
+	match, _ := regexp.MatchString("^[A-Za-z ]+$", trimmedName)
 	return match
 }
-
 func CheckValidation(user models.Profile) bool {
 	validate := validator.New()
 	validate.RegisterValidation("customValidator", CustomValidator)
