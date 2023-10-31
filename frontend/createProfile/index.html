@@ -103,11 +103,12 @@
             .then(data => {
                 if (data.message === "success") {
                     alert("Profile created successfully!");
-                    location.reload(); // Refresh the page
+                    //location.reload(); // Refresh the page
+                    window.location.href = "/home"
                 } else {
                     alert(data.message);
-                 
                 }
+                
             })
             .catch(error => {
                 console.error("Error:", error);

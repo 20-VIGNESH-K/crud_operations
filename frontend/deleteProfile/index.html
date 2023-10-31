@@ -84,7 +84,7 @@
                 if (data.message === "success") {
                     location.reload(); // Refresh the page;
                     alert("User profile deleted successfully!")
-                    location.reload();
+                    window.location.href = "/home"
                 } else {
                    
                     alert(data.message);

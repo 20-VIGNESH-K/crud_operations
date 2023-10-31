@@ -114,7 +114,7 @@
                 if (data.message === "success") {
                     alert("Profile updated successfully!");
                     // You can redirect or perform other actions here
-                    location.reload(); // Refresh the page
+                    window.location.href = "/home"
                 } else {
                     alert(data.message);                          
                 }
