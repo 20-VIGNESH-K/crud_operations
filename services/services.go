@@ -136,7 +136,7 @@ func Update(context *gin.Context) {
 
 	result, err := config.ProfileCollection.UpdateOne(Ctx, filter, bson.M{"$set": &user})
 	if result.ModifiedCount == 0 {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "There is no new to update!!!..."})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "You Updated nothing!!!..."})
 		return
 	}
 
